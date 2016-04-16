@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+{% block title %}404{% endblock %}
+
+{% block head %}
+<style type="text/css">
+    body{background: #F5F5F5;}
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="error-pages">
+
+        <img src="/static/img/404.png" alt="404" class="icon" width="400" height="260">
+        <h1>Sorry but we couldn’t find this page</h1>
+        <h4>It seems that this page doesn’t exist or has been removed</h4>
+        <div class="bottom-links">
+          <a href="index.html" class="btn btn-default">Go Back</a>
+          <a href="index.html" class="btn btn-light">Go Homepage</a>
+        </div>
+
+    </div>
+{% endblock %}

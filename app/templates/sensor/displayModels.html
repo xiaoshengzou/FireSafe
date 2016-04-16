@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+传感器布防图
+{% endblock%}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content_header %}
+    <h1 class="text-center">
+        详细地图
+    </h1>
+    </br>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <table class="table table-hover">
+        <caption>主站</caption>
+        <thead>
+          <tr>
+            <th>序号</th>>
+            <th>主站名</th>
+            <th>主站位置</th>
+            <th>主站说明</th>
+            <th>从站数量</th>
+            <th>传感器数量</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for models in mainModels %}
+          <tr class="error">
+            <td>{{ loop.index }}</td>
+            <td>{{ models.mianModelName }}</td>
+            <td>{{ models.location }}</td>
+            <td>{{ models.explain }}</td>
+            <td>{{ models.sonNumber }}</td>
+            <td>未知</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </br>
+      </br>
+      <table class="table table-hover">
+        <caption>从站</caption>
+        <thead>
+          <tr>
+            <th>序号</th>>
+            <th>从站名</th>
+            <th>从站位置</th>
+            <th>从站说明</th>
+            <th>传感器数量</th>>
+            <th>父站名</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for model in sonmodels %}
+            <tr class="warning">
+              <td>{{ loop.index }}</td>
+              <td>{{ model.sonModelName }}</td>
+              <td>{{ model.location }}</td>
+              <td>{{ model.explain }}</td>
+              <td>{{ model.sensorsNumber }}</td>
+              {% for x in mainModels %}
+                {% if x.id == model.parent_id %}
+                  <td>{{ x.mianModelName }}</td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

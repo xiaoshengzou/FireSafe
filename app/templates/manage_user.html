@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Manage-Users{% endblock %}
+
+{% block content %}
+<!-- START CONTAINER -->
+<div class="container-padding">
+
+  <!-- Start Row -->
+    <div class="row">
+
+    <!-- Start Panel -->
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-title">
+                <h4> 用户申请</h4>
+            </div>
+        <div class="panel-body table-responsive">
+         
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td class="text-center"><i class="fa fa-trash"></i></td>
+                        <td>ID.</td>
+                        <td>Name</td>
+                        <td>E-mail</td>
+                        <td>Applicaton Date</td>
+                        <td>state</td>
+                        <td>opration</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for understudy in users %}
+                    <tr id="tr-{{understudy.id}}">
+                        <td class="text-center"><div class="checkbox margin-t-0"><input id="checkbox{{ loop.index }}" type="checkbox"><label for="checkbox{{ loop.index }}"></label></div></td>
+                        <td># <b>{{ loop.index }}</b></td>
+                        <td>{{ understudy.username }}</td>
+                        <td>{{ understudy.email }}</td>
+                        <td>
+                            {{ understudy.member_since.strftime("%Y-%m-%d %H:%M:%S") }}
+                        </td>
+                        <td>未授权</td>
+                        <td>
+                            <button id="agree" class="btn btn-info btn-small" type="button" onclick="agreeOrfreezeOption({{understudy.id}},0)">
+                                同意
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    <!-- End Panel -->
+    <!-- Start Panel -->
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-title">
+                <h4> 用户管理</h4>
+            </div>
+        <div class="panel-body table-responsive">
+         
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td class="text-center"><i class="fa fa-trash"></i></td>
+                        <td>ID.</td>
+                        <td>Name</td>
+                        <td>E-mail</td>
+                        <td>Applicaton Date</td>
+                        <td>state</td>
+                        <td>opration</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in allusers %}
+                    <tr id="tr-{{user.id}}">
+                        <td class="text-center"><div class="checkbox margin-t-0"><input id="checkbox1{{ loop.index }}" type="checkbox"><label for="checkbox1{{ loop.index }}"></label></div></td>
+                        <td># <b>{{ loop.index }}</b></td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {{ user.member_since.strftime("%Y-%m-%d %H:%M:%S") }}
+                        </td>
+                        <td>已授权</td>
+                        <td>
+                            <button class="btn btn-danger btn-small" type="button" onclick="agreeOrfreezeOption({{user.id}},1)">冻结</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    <!-- End Panel -->
+    </div>
+    <!-- End Row -->
+</div>
+<!-- END CONTAINER -->
+<br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="/static/js/manager_user.js"></script>
+{% endblock %}

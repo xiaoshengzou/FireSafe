@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  {% block head %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kode is a Premium Bootstrap Admin Template, It's responsive, clean coded and mobile friendly">
+  <meta name="keywords" content="bootstrap, admin, dashboard, flat admin template, responsive," />
+  <title>{% block title %}{% endblock %}-FireSafe</title>
+
+  <!-- ========== Css Files ========== -->
+  <link href="/static/css/root.css" rel="stylesheet">
+  
+  {% endblock %}
+  </head>
+  <body>
+  <!-- Start Page Loading -->
+  <div class="loading"><img src="/static/img/loading.gif" alt="loading-img"></div>
+  <!-- End Page Loading -->
+ <!-- //////////////////////////////////////////////////////////////////////////// --> 
+  <!-- START TOP -->
+  <div id="top" class="clearfix">
+
+  	<!-- Start App Logo -->
+  	<div class="applogo">
+  		<a href="{{ url_for('main.index') }}" class="logo">FireSafe</a>
+  	</div>
+  	<!-- End App Logo -->
+
+    <!-- Start Sidebar Show Hide Button -->
+    <a href="#" class="sidebar-open-button"><i class="fa fa-bars"></i></a>
+    <a href="#" class="sidebar-open-button-mobile"><i class="fa fa-bars"></i></a>
+    <!-- End Sidebar Show Hide Button -->
+
+    <!-- Start Searchbox -->
+    <form class="searchform">
+      <input type="text" class="searchbox" id="searchbox" placeholder="Search">
+      <span class="searchbutton"><i class="fa fa-search"></i></span>
+    </form>
+    <!-- End Searchbox -->
+
+
+    <!-- Start Sidepanel Show-Hide Button -->
+    <a href="#sidepanel" class="sidepanel-open-button"><i class="fa fa-outdent"></i></a>
+    <!-- End Sidepanel Show-Hide Button -->
+
+    <!-- Start Top Right -->
+    <ul class="top-right">
+    {% if current_user.is_authenticated() %}
+    <li class="dropdown link">
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle profilebox"><img src="/static/img/profileimg.png" alt="img"><b>{{current_user.username}}</b><span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-list dropdown-menu-right">
+          {% if current_user.is_administrator() %}
+          <li><a href="{{ url_for('main.manage_user') }}"><i class="fa falist fa-user"></i>Manage Users</a></li>
+          {% endif %}
+          <li><a href="#"><i class="fa falist fa-file-o"></i>Profile</a></li>
+          <li><a href="#"><i class="fa falist fa-wrench"></i>Settings</a></li>
+          <li class="divider"></li>
+          <li><a href="{{url_for('auth.logout')}}"><i class="fa falist fa-power-off"></i> Logout</a></li>
+        </ul>
+    </li>
+    {% else %}
+    <a href="{{ url_for('auth.login') }}">
+      <i class="fa fa-user"></i>&nbsp;&nbsp;Log In</a>
+    </ul>
+    {% endif %}
+    </ul>
+    <!-- End Top Right -->
+
+  </div>
+  <!-- END TOP -->
+ <!-- //////////////////////////////////////////////////////////////////////////// --> 
+
+ <!-- //////////////////////////////////////////////////////////////////////////// --> 
+<!-- START SIDEBAR -->
+<div class="sidebar clearfix">
+
+<ul class="sidebar-panel nav">
+  <li class="sidetitle">MAIN</li>
+  <li><a href="{{ url_for('main.index') }}"><span class="icon color5"><i class="fa fa-home"></i></span>Home</a></li>
+  <li><a href="{{ url_for('sensor.createSonModel') }}"><span class="icon color5"><i class="fa fa-cogs"></i></span>Create Station</a></li>
+</ul>
+
+<ul class="sidebar-panel nav">
+  <li class="sidetitle">MORE</li>
+</ul>
+
+</div>
+<!-- END SIDEBAR -->
+<!-- //////////////////////////////////////////////////////////////////////////// --> 
+
+ <!-- //////////////////////////////////////////////////////////////////////////// --> 
+<!-- START CONTENT -->
+<div class="content">
+
+  <!-- Start Page Header -->
+  <div class="page-header">
+    <h1 class="title">监控前线</h1>
+
+    <!-- Start Page Header Right Div -->
+    <div class="right">
+      <div class="btn-group" role="group" aria-label="...">
+        <a href="{{ url_for('main.index') }}" class="btn btn-light">首页</a>
+        <a href="#" class="btn btn-light"><i class="fa fa-refresh"></i></a>
+        <a href="#" class="btn btn-light"><i class="fa fa-search"></i></a>
+        <a href="#" class="btn btn-light" id="topstats"><i class="fa fa-line-chart"></i></a>
+      </div>
+    </div>
+    <!-- End Page Header Right Div -->
+
+  </div>
+  <!-- End Page Header -->
+
+ <!-- //////////////////////////////////////////////////////////////////////////// --> 
+<!-- START CONTAINER -->
+<div class="container-default">
+{% block content %}
+{% endblock %}
+</div>
+<!-- END CONTAINER -->
+ <!-- //////////////////////////////////////////////////////////////////////////// --> 
+
+
+<!-- Start Footer -->
+<div class="row footer">
+  {% block footer %}
+  <div class="col-md-6 text-left">
+  2016/4/07 倾情打造
+  </div>
+  <div class="col-md-6 text-right">
+    雪碳科技有限公司
+  </div> 
+  {% endblock %}
+</div>
+<!-- End Footer -->
+
+</div>
+<!-- End Content -->
+ <!-- //////////////////////////////////////////////////////////////////////////// --> 
+
+<!-- //////////////////////////////////////////////////////////////////////////// --> 
+
+
+   
+<!-- //////////////////////////////////////////////////////////////////////////// --> 
+
+
+
+<!-- ================================================
+jQuery Library
+================================================ -->
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+
+<!-- ================================================
+Bootstrap Core JavaScript File
+================================================ -->
+<script src="/static/js/bootstrap/bootstrap.min.js"></script>
+
+<!-- ================================================
+Plugin.js - Some Specific JS codes for Plugin Settings
+================================================ -->
+<script type="text/javascript" src="/static/js/plugins.js"></script>
+<!-- ================================================
+Bootstrap Select
+================================================ -->
+<script type="text/javascript" src="/static/js/bootstrap-select/bootstrap-select.js"></script>
+
+<!-- ================================================
+Bootstrap Toggle
+================================================ -->
+<script type="text/javascript" src="/static/js/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+
+<!-- ================================================
+Flot Chart
+================================================ -->
+<!-- main file -->
+<script type="text/javascript" src="/static/js/flot-chart/flot-chart.js"></script>
+<!-- time.js -->
+<script type="text/javascript" src="/static/js/flot-chart/flot-chart-time.js"></script>
+<!-- stack.js -->
+<script type="text/javascript" src="/static/js/flot-chart/flot-chart-stack.js"></script>
+<!-- pie.js -->
+<script type="text/javascript" src="/static/js/flot-chart/flot-chart-pie.js"></script>
+<!-- demo codes -->
+<script type="text/javascript" src="/static/js/flot-chart/flot-chart-plugin.js"></script>
+
+
+<!-- ================================================
+Easy Pie Chart
+================================================ -->
+<!-- main file -->
+<script type="text/javascript" src="/static/js/easypiechart/easypiechart.js"></script>
+<!-- demo codes -->
+<script type="text/javascript" src="/static/js/easypiechart/easypiechart-plugin.js"></script>
+
+<!-- ================================================
+Sparkline
+================================================ -->
+<!-- main file -->
+<script type="text/javascript" src="/static/js/sparkline/sparkline.js"></script>
+<!-- demo codes -->
+<script type="text/javascript" src="/static/js/sparkline/sparkline-plugin.js"></script>
+
+<!-- ================================================
+Rickshaw
+================================================ -->
+<!-- d3 -->
+<script src="/static/js/rickshaw/d3.v3.js"></script>
+<!-- main file -->
+<script src="/static/js/rickshaw/rickshaw.js"></script>
+<!-- demo codes -->
+<script src="/static/js/rickshaw/rickshaw-plugin.js"></script>
+
+<!-- ================================================
+Moment.js
+================================================ -->
+<script type="text/javascript" src="/static/js/moment/moment.min.js"></script>
+<!-- ================================================
+Below codes are only for index widgets
+================================================ -->
+<!-- Today Sales -->
+<script>
+
+// set up our data series with 50 random data points
+
+var seriesData = [ [], [], [] ];
+var random = new Rickshaw.Fixtures.RandomData(20);
+
+for (var i = 0; i < 110; i++) {
+  random.addData(seriesData);
+}
+
+// instantiate our graph!
+
+var graph = new Rickshaw.Graph( {
+  element: document.getElementById("todaysales"),
+  renderer: 'bar',
+  series: [
+    {
+      color: "#33577B",
+      data: seriesData[0],
+      name: 'Photodune'
+    }, {
+      color: "#77BBFF",
+      data: seriesData[1],
+      name: 'Themeforest'
+    }, {
+      color: "#C1E0FF",
+      data: seriesData[2],
+      name: 'Codecanyon'
+    }
+  ]
+} );
+
+graph.render();
+
+var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+  graph: graph,
+  formatter: function(series, x, y) {
+    var date = '<span class="date">' + new Date(x * 1000).toUTCString() + '</span>';
+    var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
+    var content = swatch + series.name + ": " + parseInt(y) + '<br>' + date;
+    return content;
+  }
+} );
+
+</script>
+
+<!-- Today Activity -->
+<script>
+// set up our data series with 50 random data points
+
+var seriesData = [ [], [], [] ];
+var random = new Rickshaw.Fixtures.RandomData(20);
+
+for (var i = 0; i < 50; i++) {
+  random.addData(seriesData);
+}
+
+// instantiate our graph!
+
+var graph = new Rickshaw.Graph( {
+  element: document.getElementById("todayactivity"),
+  renderer: 'area',
+  series: [
+    {
+      color: "#9A80B9",
+      data: seriesData[0],
+      name: 'London'
+    }, {
+      color: "#CDC0DC",
+      data: seriesData[1],
+      name: 'Tokyo'
+    }
+  ]
+} );
+
+graph.render();
+
+var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+  graph: graph,
+  formatter: function(series, x, y) {
+    var date = '<span class="date">' + new Date(x * 1000).toUTCString() + '</span>';
+    var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
+    var content = swatch + series.name + ": " + parseInt(y) + '<br>' + date;
+    return content;
+  }
+} );
+</script>
+
+</body>
+</html>

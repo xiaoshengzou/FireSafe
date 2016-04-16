@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content_header %}
+    <h1 class="text-center">
+        创建传感器
+    </h1>
+
+{% endblock %}
+
+{% block content %}
+
+{% for i in numbers  %}
+    <a href="{{ url_for('sensor.createSonModel') }}">
+        <button class="btn btn-large btn-warning btn-block" type="button">
+            传感器{{i}}
+        </button>
+    </a>
+    </br>
+{% endfor %} 
+    
+{% endblock %}
+

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Create-Station{% endblock %}
+
+{% block content %}
+<!-- START CONTAINER -->
+<!--letf part-->
+<div class="container-padding">
+ <!-- Start Row -->
+  <div class="row">
+    
+
+    <div class="col-md-12 col-lg-6">
+      <div class="panel panel-default">
+
+        <div class="panel-title">
+          创建从站
+          <ul class="panel-tools">
+            <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+            <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+            <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+
+            <div class="panel-body">
+              <form class="form-horizontal">
+
+                <div class="form-group">
+                  <label for="Input" class="col-sm-2 control-label form-label">MainStation</label>
+                  <div class="col-sm-10">
+                    {{form.parentModel(class="form-control")}}
+                  </div>
+                </div>
+                <br>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="name" class="form-control">
+                  </div>
+                </div>
+                <br>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">StationNO.</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="slaveaddress" class="form-control">
+                  </div>
+                </div>
+                <br>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">Location</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="location" class="form-control" id="input122">
+                  </div>
+                </div>
+                <br>
+                <div class="form-group">
+                  <label for="Input" class="col-sm-2 control-label form-label">Sensor Numbers</label>
+                  <div class="col-sm-10">
+                    {{form.numSensor(class="form-control")}}
+                  </div>
+                </div>
+                <br>                
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                  </div>
+                </div>
+
+              </form>
+
+            </div>
+
+      </div>
+    </div>
+    
+
+    <div class="col-md-12 col-lg-6">
+      <div class="panel panel-warning">
+
+        <div class="panel-title">
+          使用介绍
+          <ul class="panel-tools">
+            <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+            <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+            <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+
+            <div class="panel-body">
+            <p>欢迎使用FireSafe,如果您初次使用本功能,
+                请继续阅读：首先您需要先选择一个主站
+                端口,默认情况下只有6个端口。每个端口
+                代表一个PC设备的USB接口，如果您不清楚
+                是哪个接口，只能一个一个试了，一般情况
+                下选择COM3一次就试对的情况的概率大些。
+                然后填写您的从站设备的名字、位置。最
+                后您需要选择该设备需要接多少个传感器。
+                最后提交即可。然后页面会跳转到传感器的
+                页面，它们等待着您的开启！
+                谢谢使用！</p>
+            </div>
+            <div class="panel-footer">小神邹提醒</div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+  <!-- End Row -->
+
+
+
+
+</div>
+<!-- END CONTAINER -->
+<br><br><br><br><br><br><br><br>
+{% endblock %}

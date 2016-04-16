@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<!-- START CONTAINER -->
+<div class="container-widget">
+
+  <!-- Start Top Stats -->
+  <div class="col-md-12">
+  <ul class="topstats clearfix">
+    <li class="arrow"></li>
+    <li class="col-xs-6 col-lg-2">
+      <span class="title"><i class="fa fa-dot-circle-o"></i>传感器</span>
+      <h3>Close</h3>
+      <span class="diff">2016/4/7 10:21:31</span>
+    </li>
+    <li class="col-xs-6 col-lg-2">
+      <span class="title"><i class="fa fa-dot-circle-o"></i>传感器</span>
+      <h3>Normal</h3>
+      <span class="diff">2016/4/7 10:21:31</span>
+    </li>
+    <li class="col-xs-6 col-lg-2">
+      <span class="title"><i class="fa fa-dot-circle-o"></i>传感器</span>
+      <h3>Warning</h3>
+      <span class="diff">2016/4/7 10:21:31</span>
+    </li>
+    <li class="col-xs-6 col-lg-2">
+      <span class="title"><i class="fa fa-dot-circle-o"></i>传感器</span>
+      <h3>Staring</h3>
+      <span class="diff">2016/4/7 10:21:31</span>
+    </li>
+    <li class="col-xs-6 col-lg-2">
+      <span class="title"><i class="fa fa-dot-circle-o"></i>传感器</span>
+      <h3>Fault</h3>
+      <span class="diff">2016/4/7 10:21:31</span>
+    </li>
+    <li class="col-xs-6 col-lg-2">
+      <span class="title"><i class="fa fa-dot-circle-o"></i>传感器</span>
+      <h3>More...</h3>
+      <span class="diff">点击查看更多</span>
+    </li>
+  </ul>
+  </div>
+  <!-- End Top Stats -->
+
+
+  <!-- Start First Row -->
+  <div class="row">
+
+    <!-- Start Chart Daily -->
+    <div class="col-md-12 col-lg-7">
+      <div class=" panel-widget widget chart-with-stats clearfix" style="height:450px;">
+
+        <div class="col-sm-12" style="height:450px;">
+          <h4 class="title">Today's situtaion<small>Last update: 1 Hours ago</small></h4>
+          <div class="top-label"><h2>3</h2><h4>Total</h4></div>
+          <div class="bigchart" id="todaysales"></div>
+        </div>
+        <div class="right" style="height:450px;">
+          <h4 class="title">Sensor View</h4>
+          <!-- start stats -->
+          <ul class="widget-inline-list clearfix">
+            <li class="col-12"><span>1</span>Normal<i class="chart sparkline-green"></i></li>
+            <li class="col-12"><span>2</span>Warning<i class="chart sparkline-red"></i></li>
+            <li class="col-12"><span>1</span>Close<i class="chart sparkline-blue"></i></li>
+          </ul>
+          <!-- end stats -->
+        </div>
+
+
+      </div>
+    </div>
+    <!-- End Chart Daily -->
+
+
+    <!-- Start Files -->
+    <div class="col-md-12 col-lg-5">
+      <div class="panel panel-widget" style="height:450px;">
+        <div class="panel-title">
+          Sensors Log <span class="label label-danger">29</span>
+          <ul class="panel-tools">
+            <li><a class="icon"><i class="fa fa-refresh"></i></a></li>
+            <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+        <div class="panel-body table-responsive">
+
+          <table class="table table-dic table-hover ">
+            <tbody>
+              <tr>
+                <td><i class="fa fa-edit"></i>传感器1号</td>
+                <td>Normal</td>
+                <td class="text-r">27/2/2015 12:34 AM</td>
+              </tr>
+              <tr>
+                <td><i class="fa fa-edit"></i>传感器2号</td>
+                <td>Warning</td>
+                <td class="text-r">27/2/2015 12:34 AM</td>
+              </tr>
+              <tr>
+               <td><i class="fa fa-edit"></i>传感器3号</td>
+                <td>Close</td>
+                <td class="text-r">27/2/2015 12:34 AM</td>
+              </tr>
+              <tr>
+                <td><i class="fa fa-edit"></i>传感器4号</td>
+                <td>Staring</td>
+                <td class="text-r">27/2/2015 12:34 AM</td>
+              </tr>
+              <tr>
+                <td><i class="fa fa-edit"></i>传感器5号</td>
+                <td>Normal</td>
+                <td class="text-r">27/2/2015 12:34 AM</td>
+              </tr>
+              <tr>
+                <td><i class="fa fa-edit"></i>传感器6号</td>
+                <td>Normal</td>
+                <td class="text-r">27/2/2015 12:34 AM</td>
+              </tr>
+              <tr>
+                <td><i class="fa fa-edit"></i>传感器7号</td>
+                <td>Normal</td>
+                <td class="text-r">27/2/2015 12:34 AM</td>
+              </tr>
+            </tbody>
+          </table>          
+
+        </div>
+      </div>
+    </div>
+    <!-- End Files -->
+
+  </div>  
+  <!-- End First Row -->
+
+
+ 
+
+  <!-- Start Third Row -->
+  <div class="row">
+
+
+    <!-- Start General Stats -->
+    <div class="col-md-12 col-lg-6">
+      <div class="panel panel-widget" style="height:205px;">
+        <div class="panel-title">
+          General Stats
+        </div>
+        <div class="panel-body">
+            <div class="easypie margin-b-50" data-percent="82"><span>82%</span>Normal</div>
+            <div class="easypie margin-b-50" data-percent="30"><span>30%</span>Warning</div>
+            <div class="easypie margin-b-50 margin-b-40" data-percent="62"><span>62%</span>Staring</div>
+            <div class="easypie margin-b-50" data-percent="15"><span>15%</span>Close</div>
+            <div class="easypie margin-b-50" data-percent="45"><span>45%</span>Storage</div>
+            <div class="easypie margin-b-50" data-percent="75"><span>76%</span>Comments</div>
+        </div>
+      </div>
+    </div>
+    <!-- End General Stats -->
+  </div>
+  <!-- End Third Row -->
+
+</div>
+<!-- END CONTAINER -->
+{% endblock %}
