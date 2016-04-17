@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}sensor{% endblock %}
+
+{% block content %}
+<!-- Start Row -->
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Display Sensor</h4>
+        <p>传感器命名：中间数字是从站编号，末尾数字是传感器编号</p>
+          {% for smodel in sonmodels %}
+            <!-- Start Top Stats -->
+            <ul class="topstats clearfix">
+              <p class="lead">{{ smodel.name }}</p>
+              {% for sor in sensor %}
+                {% if smodel.id == sor.slave_id %}
+                  <li class="col-xs-6 col-lg-2">
+                    <span class="title"><i class="fa fa-eye"></i> {{ sor.name }} </span>
+                    <h3 class="color-up">{{ sor.is_run }}</h3>
+                    <span class="diff">2016/4/16 16:55:31</span>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+            <!-- End Top Stats -->
+          {% endfor %}
+    </div>
+  </div>
+  <!-- End Row -->
+  <br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br>
+{% endblock %}

@@ -9,12 +9,12 @@ from ..models import MainStation, SonModel, Sensor
 
 
 class SonModelForm(Form):
-    parentModel = SelectField(gettext('Station:'),coerce=int)
-    sonModelName = StringField(gettext('Name:'), validators=[Required(), Length(1, 32)])
-    slaveaddress = IntegerField(gettext('Slaveaddress:'), validators=[Required()])
-    location = StringField(gettext('Location:'), validators=[Required(), Length(1, 64)])
-    numSensor = SelectField(gettext('Sensornum:'), coerce=int)
-    submit = SubmitField(gettext('Submit:'))
+    parentModel = SelectField('MainStation', coerce=int)
+    sonModelName = StringField('Name', validators=[Required(), Length(1, 32)])
+    slaveaddress = IntegerField('StationNO', validators=[Required()])
+    location = StringField('Location', validators=[Required(), Length(1, 64)])
+    numSensor = SelectField('Sensornum', coerce=int)
+    submit = SubmitField('Submit')
 
     def __init__(self, *args, **kwargs):
         super(SonModelForm, self).__init__(*args, **kwargs)

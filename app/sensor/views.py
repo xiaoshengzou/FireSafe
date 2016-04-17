@@ -17,27 +17,39 @@ def createSonModel():
     if form.validate_on_submit():
         if SonModel.query.filter_by(name=form.sonModelName.data).first():
             flash('This name is using.')
+        elif SonModel.query.filter_by(slaveaddress=int(form.slaveaddress.data)).first():
+            flash('This slaveaddress is using')
         else:
-            sonModel = SonModel(name=form.sonModelName.data,
+            sonmodel = SonModel(name=form.sonModelName.data,
                                 location=form.location.data,
                                 sensorsNumber=int(form.numSensor.data),
                                 slaveaddress=int(form.slaveaddress.data)
                                 )
-            if not SonModel.setComNumber(int(form.parentModel.data)):
+            if not sonmodel.setComNumber(int(form.parentModel.data)):
                 flash('Setting Fail')
-            db.session.add(sonModel)
-            return redirect(url_for('sensor.display', count=int(form.numSensor.data) ))
+            db.session.add(sonmodel)
+            db.session.commit()
+            return redirect(url_for('sensor.display'))
+            
     return render_template('createSonModel.html', form=form)
 
 
-@sensor.route('/display/<count>', methods=['GET','POST'])
+@sensor.route('/display')
 @login_required
-def display(total):
-    count = 0
-    while count < total:
-        sensor = Sensor(name='Sensor'+count, location='default', slave_id=sonModel.id)
-        db.session.add(sensor)
-        count += 1
+def display():
+    sonmodel = SonModel.query.filter_by(is_run=False).all()
+    for s in sonmodel:
+
+        s.is_run = True
+        count = 0
+        while count < s.sensorsNumber:
+            sname = 'Sensor_'+str(s.id)+'_'+str(count+1)
+            sensor = Sensor(name=sname, location='default', slave_id=s.id)
+            db.session.add(sensor)
+            count += 1
+        db.session.add(s)
+        db.session.commit()
+    sonmodels = SonModel.query.all()
     sensor = Sensor.query.all()
-    return render_template('sensor/displaysensor.html',sensor=sensor)
+    return render_template('displaysensor.html', sensor=sensor, sonmodels=sonmodels)
 
