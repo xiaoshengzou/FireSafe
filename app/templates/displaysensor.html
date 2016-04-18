@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-md-12">
       <h4>Display Sensor</h4>
-        <p>传感器命名：中间数字是从站编号，末尾数字是传感器编号</p>
+        <p>传感器默认命名：中间数字是从站编号，末尾数字是传感器编号</p>
           {% for smodel in sonmodels %}
             <!-- Start Top Stats -->
             <ul class="topstats clearfix">
@@ -15,8 +15,24 @@
                 {% if smodel.id == sor.slave_id %}
                   <li class="col-xs-6 col-lg-2">
                     <span class="title"><i class="fa fa-eye"></i> {{ sor.name }} </span>
-                    <h3 class="color-up">{{ sor.is_run }}</h3>
-                    <span class="diff">2016/4/16 16:55:31</span>
+                    {% if sor.is_run %}
+                        {% for slog in sensorlog %}
+                          {% if slog.sensors_id == sor.id %}
+                            <h3 class="color-up" id="state{{sor.id}}">{{slog.sensor_state}}</h3>
+                          {% endif %}
+                        {% endfor %}
+                    {% else %}
+                      <a href="{{ url_for('sensor.createSensor', id=sor.id) }}">
+                        <h3 class="color-down">未启动</h3>
+                      </a>
+                    {% endif %}
+                    {% if sor.is_run %}
+                      {% for slog in sensorlog %}
+                          {% if slog.sensors_id == sor.id %}
+                            <span class="diff" id="time{{sor.id}}">{{slog.updata_time.strftime("%c")}}</span>
+                          {% endif %}
+                        {% endfor %}
+                    {% endif %}
                   </li>
                 {% endif %}
               {% endfor %}

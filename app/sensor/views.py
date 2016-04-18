@@ -2,8 +2,8 @@
 
 from flask import render_template, redirect, request, url_for, flash
 from . import sensor
-from ..models import MainStation, SonModel, Sensor
-from .forms import SonModelForm
+from ..models import MainStation, SonModel, Sensor, SensorLog
+from .forms import SonModelForm, SensorForm
 from .. import db
 from flask.ext.login import login_required
 from ..decorators import admin_required, permission_required
@@ -39,7 +39,6 @@ def createSonModel():
 def display():
     sonmodel = SonModel.query.filter_by(is_run=False).all()
     for s in sonmodel:
-
         s.is_run = True
         count = 0
         while count < s.sensorsNumber:
@@ -51,5 +50,23 @@ def display():
         db.session.commit()
     sonmodels = SonModel.query.all()
     sensor = Sensor.query.all()
-    return render_template('displaysensor.html', sensor=sensor, sonmodels=sonmodels)
+    slog = SensorLog.query.all()
+    return render_template('displaysensor.html', sensor=sensor, sonmodels=sonmodels, sensorlog=slog)
 
+@sensor.route('/createSensor/<id>', methods=['GET', 'POST'])
+@login_required
+def createSensor(id):
+    form = SensorForm()
+    if form.validate_on_submit():
+        sensor = Sensor.query.filter_by(id=id).first()
+        if sensor:
+            sensor.name = form.sensorName.data
+            sensor.location = form.location.data
+            if not sensor.is_run:
+                sensor.is_run = True
+                slog = SensorLog(sensors_id=sensor.id)
+                db.session.add(slog)
+            db.session.add(sensor)
+            db.session.commit()
+            return redirect(url_for('sensor.display'))
+    return render_template('createSensor.html', form=form)
