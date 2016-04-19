@@ -15,12 +15,12 @@ NORMAL_NUM = 1
 
 class WriteThread(threading.Thread):
 
-    def __init__(self, app, sleeptimes, com, slave, sensornum):  
+    def __init__(self, app, sleeptimes):  
         threading.Thread.__init__(self)
         self.sleeptimes = sleeptimes
-        self.com = com
-        self.slave = slave
-        self.sensornum = sensornum
+        # self.com = com
+        # self.slave = slave
+        # self.sensornum = sensornum
         self.thread_stop = False
         self.app = app
           
@@ -28,16 +28,16 @@ class WriteThread(threading.Thread):
     def run(self):
         with self.app.app_context(): 
             try:
-                instrument = minimalmodbus.Instrument(self.com, self.slave)      
+                instrument = minimalmodbus.Instrument('COM3', 1)      
             except IOError:
                 print 'com not open!'
             else:
                 while not self.thread_stop:
                     try:
-                        data = instrument.read_registers(0, self.sensornum)
+                        data = instrument.read_registers(0, 6)
                         for i, value in enumerate(data):
                             if value != 0:
-                                datalog = SensorLog.query.filter_by(sensors_id=i).first()
+                                datalog = SensorLog.query.filter_by(position=i).first()
                                 if datalog is not None:
                                     if value == STARING_NUM:
                                         datalog.sensor_state ='Staring'
@@ -48,8 +48,9 @@ class WriteThread(threading.Thread):
                                     elif value == NORMAL_NUM:
                                         datalog.sensor_state ='Normal'
                                         datalog.updata_time = datetime.datetime.now()
-                                    else:
-                                        datalog = SensorLog(sensors_id=i)
+                                    db.session.add(datalog)
+                                else:
+                                    datalog = SensorLog(slave_id=1 , position=i)
                                     db.session.add(datalog)
                         db.session.commit()
                         time.sleep(self.sleeptimes)

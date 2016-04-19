@@ -1,7 +1,7 @@
 
 import os
 from app import create_app, db
-from app.models import User, Role, MainStation, SonModel
+from app.models import User, Role, MainStation, SonModel, SensorLog, Sensor
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 from app.getDataThread import WriteThread
@@ -11,7 +11,7 @@ manager = Manager(app)
 migrate  = Migrate(app, db)
 
 def make_shell_context():
-	return dict(app=app, db=db, User=User, Role=Role,MainStation=MainStation,SonModel=SonModel)
+	return dict(app=app, db=db, User=User, Role=Role,MainStation=MainStation,SonModel=SonModel,SensorLog=SensorLog,Sensor=Sensor)
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
@@ -36,9 +36,8 @@ def depoly():
 
 
 if __name__ == '__main__':
-
         # task1 = WriteThread(app, 3)
         # task1.start()
-        #app.run(debug=True)
+        # app.run(debug=False)
         
         manager.run()

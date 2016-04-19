@@ -17,8 +17,10 @@
                     <span class="title"><i class="fa fa-eye"></i> {{ sor.name }} </span>
                     {% if sor.is_run %}
                         {% for slog in sensorlog %}
-                          {% if slog.sensors_id == sor.id %}
-                            <h3 class="color-up" id="state{{sor.id}}">{{slog.sensor_state}}</h3>
+                          {% if slog.position == sor.position %}
+                            <h3 class="color-up" id="state_{{smodel.slaveaddress}}{{sor.position}}">
+                              {{slog.sensor_state}}
+                            </h3>
                           {% endif %}
                         {% endfor %}
                     {% else %}
@@ -28,10 +30,10 @@
                     {% endif %}
                     {% if sor.is_run %}
                       {% for slog in sensorlog %}
-                          {% if slog.sensors_id == sor.id %}
-                            <span class="diff" id="time{{sor.id}}">{{slog.updata_time.strftime("%c")}}</span>
+                          {% if slog.position == sor.position %}
+                            <span class="diff" id="time_{{smodel.slaveaddress}}{{sor.position}}">{{slog.updata_time.strftime("%c")}}</span>
                           {% endif %}
-                        {% endfor %}
+                      {% endfor %}
                     {% endif %}
                   </li>
                 {% endif %}
@@ -39,6 +41,21 @@
             </ul>
             <!-- End Top Stats -->
           {% endfor %}
+          <script type="text/javascript">
+          function updataOption(){
+            $.post('/updataOption',function(responce){
+              var list  = eval(responce);
+              for (var i = 0; i < list.data.length; i++) {
+
+                $("#state_"+list.data[i].slaveid+list.data[i].position).html(list.data[i].state);
+                $("#time_"+list.data[i].slaveid+list.data[i].position).html(list.data[i].time);
+                
+              }
+              
+            });
+          }
+          setInterval('updataOption()',3000);
+          </script>
     </div>
   </div>
   <!-- End Row -->

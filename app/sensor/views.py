@@ -43,7 +43,7 @@ def display():
         count = 0
         while count < s.sensorsNumber:
             sname = 'Sensor_'+str(s.id)+'_'+str(count+1)
-            sensor = Sensor(name=sname, location='default', slave_id=s.id)
+            sensor = Sensor(name=sname, location='default', slave_id=s.id, position=2*count)
             db.session.add(sensor)
             count += 1
         db.session.add(s)
@@ -64,9 +64,8 @@ def createSensor(id):
             sensor.location = form.location.data
             if not sensor.is_run:
                 sensor.is_run = True
-                slog = SensorLog(sensors_id=sensor.id)
-                db.session.add(slog)
             db.session.add(sensor)
             db.session.commit()
             return redirect(url_for('sensor.display'))
     return render_template('createSensor.html', form=form)
+

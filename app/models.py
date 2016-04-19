@@ -176,6 +176,7 @@ class Sensor(db.Model):
 	name		= db.Column(db.String(128), unique=True)
 	location    = db.Column(db.String(128))
 	slave_id    = db.Column(db.Integer)
+	position    = db.Column(db.Integer, unique=True)
 	is_run      = db.Column(db.Boolean(), default=False)
 	sonmodel_id = db.Column(db.Integer, db.ForeignKey('sonmodels.id'))
 
@@ -183,8 +184,9 @@ class Sensor(db.Model):
 class SensorLog(db.Model):
 	__tablename__ = 'sensorslog'
 	id            = db.Column(db.Integer, primary_key=True)
-	sensors_id    = db.Column(db.Integer, index=True)
-	sensor_state  = db.Column(db.String(32), default=u'unopened')		
+	position      = db.Column(db.Integer, unique=True)
+	slave_id      = db.Column(db.Integer)
+	sensor_state  = db.Column(db.String(32), default=u'unopened')
 	create_time   = db.Column(db.DateTime(), default=datetime.now)
 	updata_time   = db.Column(db.DateTime(), default=datetime.now)
 
