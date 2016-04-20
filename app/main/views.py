@@ -13,6 +13,23 @@ from ..decorators import admin_required, permission_required
 def index():
     return render_template('index.html')
 
+@main.route('/updataOption',methods=['POST'])
+def updataOption():
+    data = []
+    sensorlog = SensorLog.query.order_by(SensorLog.slave_id)
+    for slog in sensorlog:
+        a = {
+             'time': slog.updata_time,
+             'position': slog.position,
+             'state': slog.sensor_state,
+             'slaveid': slog.slave_id 
+        }
+        data.append(a)
+
+    json = {'data': data}
+
+    return jsonify(**json)
+    
 @main.route('/user/<username>')
 @login_required
 def user(username):

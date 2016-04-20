@@ -1,4 +1,4 @@
-
+#-*- coding:utf-8 -*-
 
 import os
 
@@ -7,7 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string such as kobe'
-	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+	SQLALCHEMY_COMMIT_ON_TEARDOWN = True		#自动提交事务变化
 
 	@staticmethod
 	def init_app(app):

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html"  as wtf %}
+{% block title %}Create-Station{% endblock %}
+
+{% block content %}
+<!-- START CONTAINER -->
+<!--letf part-->
+<div class="container-padding">
+ <!-- Start Row -->
+  <div class="row">
+    
+
+    <div class="col-md-12 col-lg-6">
+      <div class="panel panel-default">
+
+        <div class="panel-title">
+          传感器信息
+          <ul class="panel-tools">
+            <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+            <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+            <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+
+            <div class="panel-body">
+              {{ wtf.quick_form(form) }}
+            </div>
+      </div>
+    </div>
+    
+
+    <div class="col-md-12 col-lg-6">
+      <div class="panel panel-warning">
+
+        <div class="panel-title">
+          使用介绍
+          <ul class="panel-tools">
+            <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+            <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+            <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+
+            <div class="panel-body">
+            <p class="lead">
+                欢迎使用FireSafe!<br>
+                如果您初次使用本功能,请继续阅读：   <br>
+                首先您需要先选择一个主站端口        <br>
+                每个端口代表一个PC设备的USB接口     <br>
+                网站会提示您选择的端口是否正确      <br>
+                然后填写您的从站设备的名字、位置    <br>
+                最后您需要选择该设备需要多少个传感器<br>
+                最后点击提交按钮即可                <br>
+                然后页面会跳转到传感器的页面        <br>
+                谢谢使用！
+            </p>
+            </div>
+            <div class="panel-footer">温馨提示</div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+  <!-- End Row -->
+
+
+
+
+</div>
+<!-- END CONTAINER -->
+<br><br><br><br><br><br><br><br>
+{% endblock %}
