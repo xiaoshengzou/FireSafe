@@ -30,14 +30,14 @@ def depoly():
         MainStation.insert_com()
         u = User(email='kobe@www.com',username='kobe',password='cat')
         z = User(email='zou@www.com',username='zou',password='cat')
-        x = SonModel(name='7d',slaveaddress=1,location='7d',sensorsNumber=3)
+        x = SonModel(name='7d',slaveaddress=1,location='default',sensorsNumber=3)
         db.session.add_all([u, z, x])
         db.session.commit()
 
 
 if __name__ == '__main__':
-        # task1 = WriteThread(app, 3)
-        # task1.start()
-        # app.run(debug=False)
+        task1 = WriteThread(app, 3, 'COM3',1,6)
+        task1.start()
+        app.run(debug=False)
         
-        manager.run()
+        #manager.run()
