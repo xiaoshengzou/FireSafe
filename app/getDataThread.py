@@ -57,7 +57,7 @@ class WriteThread(threading.Thread):
                     except IOError:
                         datalog = SensorLog.query.filter_by(slave_id=self.slave).all()
                         for log in datalog:
-                            log.sensor_state ='Unopened'
+                            log.sensor_state ='unOpen'
                             log.updata_time = datetime.datetime.now()
                             db.session.add(log)
                             db.session.commit()

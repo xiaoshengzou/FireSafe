@@ -54,8 +54,8 @@
           {% if current_user.is_administrator() %}
           <li><a href="{{ url_for('main.manage_user') }}"><i class="fa falist fa-user"></i>Manage Users</a></li>
           {% endif %}
-          <li><a href="#"><i class="fa falist fa-file-o"></i>Profile</a></li>
-          <li><a href="#"><i class="fa falist fa-wrench"></i>Settings</a></li>
+          <!-- <li><a href="#"><i class="fa falist fa-file-o"></i>Profile</a></li>
+          <li><a href="#"><i class="fa falist fa-wrench"></i>Settings</a></li> -->
           <li class="divider"></li>
           <li><a href="{{url_for('auth.logout')}}"><i class="fa falist fa-power-off"></i> Logout</a></li>
         </ul>
