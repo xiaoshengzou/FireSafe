@@ -59,6 +59,8 @@ class User(UserMixin, db.Model):
 		super(User, self).__init__(**kwargs)
 		if self.role is None:
 			if self.email == 'kobe@www.com':
+				self.understudy = False
+				db.session.add(self)
 				self.role = Role.query.filter_by(permissions=0X80).first()
 			if self.role is None:
 				self.role = Role.query.filter_by(default=True).first()
@@ -177,6 +179,7 @@ class Sensor(db.Model):
 	location    = db.Column(db.String(128))
 	slave_id    = db.Column(db.Integer)
 	position    = db.Column(db.Integer)
+	is_top      = db.Column(db.Boolean(), default=False)
 	is_run      = db.Column(db.Boolean(), default=False)
 	sonmodel_id = db.Column(db.Integer, db.ForeignKey('sonmodels.id'))
 
@@ -184,9 +187,10 @@ class Sensor(db.Model):
 class SensorLog(db.Model):
 	__tablename__ = 'sensorslog'
 	id            = db.Column(db.Integer, primary_key=True)
+	sensor_name   = db.Column(db.String(128), unique=True)
 	position      = db.Column(db.Integer)
 	slave_id      = db.Column(db.Integer)
-	sensor_state  = db.Column(db.String(32), default=u'unopened')
+	sensor_state  = db.Column(db.String(32), default=u'unOpen')
 	create_time   = db.Column(db.DateTime(), default=datetime.now)
 	updata_time   = db.Column(db.DateTime(), default=datetime.now)
 

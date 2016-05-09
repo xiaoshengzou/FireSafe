@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}setting top{% endblock %}
+
+{% block content %}
+<!-- START CONTAINER -->
+<div class="container-padding">
+
+  <!-- Start Row -->
+    <div class="row">
+
+    <!-- Start Panel -->
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-title">
+                <h4> 传感器</h4>
+            </div>
+        <div class="panel-body table-responsive">
+         
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td>ID.</td>
+                        <td>Name</td>
+                        <td>location</td>
+                        <td>state</td>
+                        <td>opration</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for sensor in sensors %}
+                        <td># <b>{{ loop.index }}</b></td>
+                        <td>{{ sensor.name }}</td>
+                        <td>{{ sensor.location }}</td>
+                        {% if sensor.is_run %}
+                            <td>已启动</td>
+                        {% else %}
+                            <td>未启动</td>
+                        {% endif %}
+                        <td>
+                            {% if sensor.is_top %}
+                            <button id="movetop-{{sensor.id}}" class="btn btn-danger btn-small" type="button" onclick="moveTopOrCancel({{sensor.id}});">Cancel</button>
+                            {% else %}
+                            <button id="movetop-{{sensor.id}}" class="btn btn-info btn-small" type="button" onclick="moveTopOrCancel({{sensor.id}});">Top</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    <!-- End Panel -->
+    </div>
+    <!-- End Row -->
+</div>
+<!-- END CONTAINER -->
+<br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="/static/js/manager_user.js"></script>
+{% endblock %}

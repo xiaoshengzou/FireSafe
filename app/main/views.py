@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import render_template, session, redirect, url_for, flash
 from flask.ext.login import logout_user, login_required, current_user
 from . import main
-from ..models import User, Permission, SensorLog 
+from ..models import User, Permission, SensorLog, Sensor 
 from . forms import EditProfiledForm
 from .. import db
 from flask import request, jsonify
@@ -11,7 +11,13 @@ from ..decorators import admin_required, permission_required
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    slogs = []
+    sensor = Sensor.query.filter_by(is_top=True).all()
+    for s in sensor:
+        slog = SensorLog.query.filter_by(slave_id=s.slave_id).filter_by(position=s.position).first()
+        if slog is not None:
+            slogs.append(slog)
+    return render_template('index.html', slogs=slogs, sensor=sensor)
 
 @main.route('/updataOption',methods=['POST'])
 def updataOption():
@@ -70,11 +76,14 @@ def agreeOrFreeze():
     if u is not None:
         if option == 0:
             u.understudy = False
+            db.session.add(u)
+            return 'ok'
         elif option == 1:
             u.understudy = True
+            db.session.add(u)
+            return 'ok'
         else:
             return 'fail'
-        return 'ok'
     else:
         return 'fail'
 
@@ -88,6 +97,27 @@ def disagreeOrdelete():
     if u is not None:
         db.session.delete(u)
         return 'ok'
+    else:
+        return 'fail'
+
+@main.route('/moveTopOrCancel',methods=['POST'])
+@login_required
+@admin_required
+def moveTopOrCancel():
+    id = request.values.get('id', -1, type=int)
+    sensor = Sensor.query.filter_by(id=id).first()
+    opCode = request.values.get('opCode', 0, type=int)
+    if sensor is not None:
+        if opCode == 1:
+            sensor.is_top = True
+            db.session.add(sensor)
+            return 'ok'
+        elif opCode == 2:
+            sensor.is_top = False
+            db.session.add(sensor)
+            return 'ok'
+        else:
+            return 'fail'
     else:
         return 'fail'
 

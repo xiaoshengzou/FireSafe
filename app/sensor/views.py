@@ -47,6 +47,7 @@ def display():
                 db.session.add(sensor)
                 count += 1
             db.session.add(s)
+            db.session.commit()
     sonmodels = SonModel.query.all()
     sensor = Sensor.query.all()
     slog = SensorLog.query.all()
@@ -54,16 +55,30 @@ def display():
 
 @sensor.route('/createSensor/<id>', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def createSensor(id):
     form = SensorForm()
     if form.validate_on_submit():
         sensor = Sensor.query.filter_by(id=id).first()
         if sensor:
-            sensor.name = form.sensorName.data
-            sensor.location = form.location.data
-            if not sensor.is_run:
-                sensor.is_run = True
-            db.session.add(sensor)
-            return redirect(url_for('sensor.display'))
+            if Sensor.query.filter_by(name=form.sensorName.data).first():
+                flash('This name is using.')
+            else:
+                sensor.name = form.sensorName.data
+                sensor.location = form.location.data
+                if not sensor.is_run:
+                    sensor.is_run = True
+                    slog = SensorLog(sensor_name=sensor.name,position=sensor.position,slave_id=sensor.slave_id)
+                db.session.add(slog)
+                db.session.add(sensor)
+                return redirect(url_for('sensor.display'))
     return render_template('createSensor.html', form=form)
+
+@sensor.route('/topdisplay')
+@login_required
+@admin_required
+def topdisplay():
+    sensors = Sensor.query.all()
+    return render_template('topdisplay.html',sensors=sensors)
+
 
