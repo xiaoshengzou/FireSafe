@@ -17,13 +17,11 @@
                     <span class="title"><i class="fa fa-eye"></i> {{ sor.name }} </span>
                     {% if sor.is_run %}
                         {% for slog in sensorlog %}
-                        {% if slog.slave_id == sor.slave_id %}
-                          {% if slog.position == sor.position %}
-                            <h3 class="color-up" id="state_{{smodel.slaveaddress}}{{sor.position}}">
-                              {{slog.sensor_state}}
-                            </h3>
+                          {% if slog.slave_id == sor.slave_id and slog.position == sor.position %}
+                              <h3 class="color-up" id="state_{{smodel.slaveaddress}}{{sor.position}}">
+                                Ready..
+                              </h3>
                           {% endif %}
-                        {% endif %}
                         {% endfor %}
                     {% else %}
                       <a href="{{ url_for('sensor.createSensor', id=sor.id) }}">
@@ -34,7 +32,7 @@
                       {% for slog in sensorlog %}
                         {% if slog.slave_id == sor.slave_id %}
                           {% if slog.position == sor.position %}
-                            <span class="diff" id="time_{{smodel.slaveaddress}}{{sor.position}}">{{slog.updata_time.strftime("%c")}}</span>
+                            <span class="diff" id="time_{{smodel.slaveaddress}}{{sor.position}}">--/--/-- --:--:--</span>
                           {% endif %}
                         {% endif %}
                       {% endfor %}
@@ -56,8 +54,17 @@
               var list  = eval(responce);
               for (var i = 0; i < list.data.length; i++) {
 
-                $("#state_"+list.data[i].slaveid+list.data[i].position).html(list.data[i].state);
-                $("#time_"+list.data[i].slaveid+list.data[i].position).html(list.data[i].time);
+                $("#state_"+list.data[i].slaveid+list.data[i].position).text(list.data[i].state);
+                if(list.data[i].state == 'Staring') {
+                  $("#state_"+list.data[i].slaveid+list.data[i].position).css("color","#66CCCC")
+                }else if(list.data[i].state == 'Normal'){
+                  $("#state_"+list.data[i].slaveid+list.data[i].position).css("color","#3366FF")
+                }else if(list.data[i].state == 'unOpen'){
+                  $("#state_"+list.data[i].slaveid+list.data[i].position).css("color","#000000")
+                }else {
+                  $("#state_"+list.data[i].slaveid+list.data[i].position).css("color","red")
+                }
+                $("#time_"+list.data[i].slaveid+list.data[i].position).text(list.data[i].time);
                 
               }
               
