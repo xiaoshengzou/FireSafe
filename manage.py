@@ -4,7 +4,8 @@ from app import create_app, db
 from app.models import User, Role, MainStation, SonModel, SensorLog, Sensor
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
-from app.getDataThread import WriteThread
+#from app.getDataThread import WriteThread
+from app.analogData import WriteThread
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
