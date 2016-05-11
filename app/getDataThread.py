@@ -47,7 +47,7 @@ class WriteThread(threading.Thread):
                             datas = instrument[0].read_registers(0, instrument[SENSORSNUM])
                             pop_zero_data = datas[::2]
                             for i, value in enumerate(pop_zero_data):
-                                datalog = SensorLog.query.filter_by(slave_id=instrument[SLAVEADDRESS]).filter_by(position=i).first()
+                                datalog = SensorLog.query.filter_by(slave_id=instrument[SLAVEADDRESS]).filter_by(position=i*2).first()
                                 if datalog is not None:
                                     if str(value) in self.state:
                                         datalog.sensor_state = self.state[str(value)]

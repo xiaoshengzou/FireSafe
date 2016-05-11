@@ -193,8 +193,3 @@ class SensorLog(db.Model):
 	sensor_state  = db.Column(db.String(32), default=u'unOpen')
 	create_time   = db.Column(db.DateTime(), default=datetime.now)
 	updata_time   = db.Column(db.DateTime(), default=datetime.now)
-
-
-
-
-
