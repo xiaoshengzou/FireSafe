@@ -26,7 +26,7 @@
                         <td>state</td>
                         <td>check_user</td>
                         <td>check_time</td>
-                        <td>alarm</td>
+                        <td>solve</td>
                         <td>process_info</td>
                     </tr>
                 </thead>
@@ -42,7 +42,16 @@
                         <td>
                         {{ slog.check_time.strftime("%Y-%m-%d %H:%M:%S") if
                         slog.check_time is not none else '' }}</td>
-                        <td>{{ slog.alarm }}</td>
+                        <td>
+                            {% if slog.alarm %}
+                                <label style="color: green;">Yes</label>
+                            {% else %}
+                                <label style="color: red;">No
+                                </label>
+                            {% endif %}
+                            
+                            </div>
+                        </td>
                         <td>{{ slog.process_info or '' }}</td>
                     </tr>
                 {% endfor %}

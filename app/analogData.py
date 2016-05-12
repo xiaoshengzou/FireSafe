@@ -12,7 +12,7 @@ SENSORSNUM =2
 
 def read_registers(start, num):
     data = []
-    rdata = [1,1,1,1,0,1,257,512,1,1,1,1,1,1,1,1]
+    rdata = [1,1,1,1,1,1,1,1,1,257,1,1,1,0,1,1,1,1,1]
     rNum = num - start
     if rNum < 0:
         return data

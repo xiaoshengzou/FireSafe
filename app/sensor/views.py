@@ -85,6 +85,6 @@ def topdisplay():
 @login_required
 @admin_required
 def displaysensortable():
-    slogs = SensorLog.query.order_by(SensorLog.time.desc()).all()
+    slogs = SensorLog.query.order_by(SensorLog.time.desc()).limit(50).all()
     return render_template('sensortable.html',slogs=slogs)
 

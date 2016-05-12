@@ -20,33 +20,33 @@
     <li class="col-xs-6 col-lg-2">
       <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
       <h3><a href="{{ url_for('sensor.topdisplay') }}">+</a></h3>
-      <span class="diff">--/--/-- --:--:--</span>
+      <span class="diff">position</span>
     </li>
   {% else %}
     <li class="col-xs-6 col-lg-2">
       <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
       <h3><a href="{{ url_for('sensor.topdisplay') }}">+</a></h3>
-      <span class="diff">--/--/-- --:--:--</span>
+      <span class="diff">position</span>
     </li>
     <li class="col-xs-6 col-lg-2">
       <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
       <h3><a href="#">+</a></h3>
-      <span class="diff">--/--/-- --:--:--</span>
+      <span class="diff">position</span>
     </li>
     <li class="col-xs-6 col-lg-2">
       <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
       <h3><a href="#">+</a></h3>
-      <span class="diff">--/--/-- --:--:--</span>
+      <span class="diff">position</span>
     </li>
     <li class="col-xs-6 col-lg-2">
       <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
       <h3><a href="#">+</a></h3>
-      <span class="diff">--/--/-- --:--:--</span>
+      <span class="diff">position</span>
     </li>
     <li class="col-xs-6 col-lg-2">
       <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
       <h3><a href="#">+</a></h3>
-      <span class="diff">--/--/-- --:--:--</span>
+      <span class="diff">position</span>
     </li>
   {% endif %}
     <li class="col-xs-6 col-lg-2">
@@ -97,7 +97,7 @@
           {% if count > 99 %} 
             <span class="label label-danger">99+</span>
           {% else %}
-            <span class="label label-danger">{{ count }}</span>
+            <span id="count" class="label label-danger">{{ count }}</span>
           {% endif%}
           <ul class="panel-tools">
             <li>

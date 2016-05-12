@@ -40,7 +40,8 @@ def refreshLog():
         log = {
             'name':slog.sensor_name,
             'state':slog.sensor_state,
-            'time':slog.time.strftime("%Y-%m-%d %H:%M:%S")
+            'time':slog.time.strftime("%Y-%m-%d %H:%M:%S"),
+            'count':count
         }
         slogs.append(log)
     json = {'slogs':slogs}
