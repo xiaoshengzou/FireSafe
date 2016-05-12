@@ -7,7 +7,7 @@ from .forms import SonModelForm, SensorForm
 from .. import db
 from flask.ext.login import login_required
 from ..decorators import admin_required, permission_required
-
+from flask import jsonify
 
 @sensor.route('/createSonModel',methods=['GET', 'POST'])
 @login_required
@@ -43,15 +43,17 @@ def display():
             count = 0
             while count < s.sensorsNumber:
                 sname = 'Sensor_'+str(s.id)+'_'+str(count+1)
-                sensor = Sensor(name=sname, location='default', slave_id=s.id, position=2*count)
+                sensor = Sensor(name=sname, location='default', sonmodel=s, position=2*count)
                 db.session.add(sensor)
                 count += 1
             db.session.add(s)
             db.session.commit()
     sonmodels = SonModel.query.all()
-    sensor = Sensor.query.all()
-    slog = SensorLog.query.all()
-    return render_template('displaysensor.html', sensor=sensor, sonmodels=sonmodels, sensorlog=slog)
+    sensors = []
+    for s in sonmodels:
+        smodel_sensors = s.sensors.all()        #acquire of sonmodel's all sensor 
+        sensors.append(smodel_sensors)
+    return render_template('displaysensor.html', sensors=sensors, sonmodels=sonmodels)
 
 @sensor.route('/createSensor/<id>', methods=['GET', 'POST'])
 @login_required
@@ -68,8 +70,6 @@ def createSensor(id):
                 sensor.location = form.location.data
                 if not sensor.is_run:
                     sensor.is_run = True
-                    slog = SensorLog(sensor_name=sensor.name,position=sensor.position,slave_id=sensor.slave_id)
-                db.session.add(slog)
                 db.session.add(sensor)
                 return redirect(url_for('sensor.display'))
     return render_template('createSensor.html', form=form)
@@ -81,4 +81,10 @@ def topdisplay():
     sensors = Sensor.query.all()
     return render_template('topdisplay.html',sensors=sensors)
 
+@sensor.route('/sensortable')
+@login_required
+@admin_required
+def displaysensortable():
+    slogs = SensorLog.query.order_by(SensorLog.time.desc()).all()
+    return render_template('sensortable.html',slogs=slogs)
 

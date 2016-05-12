@@ -39,3 +39,16 @@ function moveTopOrCancel(id) {
         }
     });
 }
+
+
+function refreshLog() {
+    $.post('/refreshLog',function(responce) {
+        var list = eval(responce);
+        for(var i=1; i<=list.slogs.length; i++) {
+            $("#name_" + i).text(list.slogs[i-1].name);
+            $("#state_"+ i).text(list.slogs[i-1].state);
+            $("#time_" + i).text(list.slogs[i-1].time);
+        }
+    });
+}
+ 

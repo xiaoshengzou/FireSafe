@@ -93,54 +93,42 @@
     <div class="col-md-12 col-lg-5">
       <div class="panel panel-widget" style="height:450px;">
         <div class="panel-title">
-          Sensors Log <span class="label label-danger">29</span>
+          Sensors Log
+          {% if count > 99 %} 
+            <span class="label label-danger">99+</span>
+          {% else %}
+            <span class="label label-danger">{{ count }}</span>
+          {% endif%}
           <ul class="panel-tools">
-            <li><a class="icon"><i class="fa fa-refresh"></i></a></li>
-            <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+            <li>
+              <a class="icon" onclick="refreshLog();">
+                <i class="fa fa-refresh"></i>
+              </a>
+            </li>
+            <li>
+              <a class="icon closed-tool"><i class="fa fa-times"></i></a>
+              </li>
           </ul>
         </div>
         <div class="panel-body table-responsive">
 
           <table class="table table-dic table-hover ">
             <tbody>
+            {% for slog in sensor_logs %}
               <tr>
-                <td><i class="fa fa-edit"></i>传感器1号</td>
-                <td>Normal</td>
-                <td class="text-r">27/2/2015 12:34 AM</td>
+                <td><a href="#"><i class="fa fa-edit"></i></a>
+                  <span id="name_{{loop.index}}">
+                    {{ slog.sensor_name }}
+                  </span>
+                </td>
+                <td id="state_{{loop.index}}">{{ slog.sensor_state }}</td>
+                <td id="time_{{loop.index}}" class="text-r">
+                  {{ slog.time.strftime("%Y-%m-%d %H:%M:%S") }}
+                </td>
               </tr>
-              <tr>
-                <td><i class="fa fa-edit"></i>传感器2号</td>
-                <td>Warning</td>
-                <td class="text-r">27/2/2015 12:34 AM</td>
-              </tr>
-              <tr>
-               <td><i class="fa fa-edit"></i>传感器3号</td>
-                <td>Close</td>
-                <td class="text-r">27/2/2015 12:34 AM</td>
-              </tr>
-              <tr>
-                <td><i class="fa fa-edit"></i>传感器4号</td>
-                <td>Staring</td>
-                <td class="text-r">27/2/2015 12:34 AM</td>
-              </tr>
-              <tr>
-                <td><i class="fa fa-edit"></i>传感器5号</td>
-                <td>Normal</td>
-                <td class="text-r">27/2/2015 12:34 AM</td>
-              </tr>
-              <tr>
-                <td><i class="fa fa-edit"></i>传感器6号</td>
-                <td>Normal</td>
-                <td class="text-r">27/2/2015 12:34 AM</td>
-              </tr>
-              <tr>
-                <td><i class="fa fa-edit"></i>传感器7号</td>
-                <td>Normal</td>
-                <td class="text-r">27/2/2015 12:34 AM</td>
-              </tr>
+            {% endfor %}
             </tbody>
-          </table>          
-
+          </table>
         </div>
       </div>
     </div>
@@ -178,4 +166,8 @@
 
 </div>
 <!-- END CONTAINER -->
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="/static/js/manager_user.js"></script>
 {% endblock %}

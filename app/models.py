@@ -10,103 +10,103 @@ from . import login_manager
 # from flask import current_app
 
 class Permission:
-	USER  = 0X01
-	ADMIN = 0X80
+    USER  = 0X01
+    ADMIN = 0X80
 	
 class Role(db.Model):
-	__tablename__ = 'roles'
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(64), unique=True)
-	users = db.relationship('User', backref = 'role', lazy='dynamic')
-	permissions = db.Column(db.Integer)
-	default = db.Column(db.Boolean, default=False, index=True)
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', backref = 'role', lazy='dynamic')
+    permissions = db.Column(db.Integer)
+    default = db.Column(db.Boolean, default=False, index=True)
 
-	@staticmethod
-	def insert_roles():
-		roles ={
-		'User':(Permission.USER, True),
-		'Admin':(Permission.ADMIN, False)
-		}
-		for r in roles:
-			role = Role.query.filter_by(name=r).first()
-			if role is None:
-				role = Role(name=r)
-			role.permissions = roles[r][0]
-			role.default = roles[r][1]
-			db.session.add(role)
-		db.session.commit()
+    @staticmethod
+    def insert_roles():
+        roles ={
+        'User':(Permission.USER, True),
+        'Admin':(Permission.ADMIN, False)
+        }
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if role is None:
+                role = Role(name=r)
+            role.permissions = roles[r][0]
+            role.default = roles[r][1]
+            db.session.add(role)
+        db.session.commit()
 
-	def __repr__(self):
-		return '<Role %r>' % self.name
+    def __repr__(self):
+        return '<Role %r>' % self.name
 
 
 
 
 class User(UserMixin, db.Model):
-	__tablename__ = 'users'
-	id            = db.Column(db.Integer,primary_key=True)
-	email         = db.Column(db.String(64), unique=True, index=True)
-	username      = db.Column(db.String(64),unique=True,index=True)
-	role_id       = db.Column(db.Integer, db.ForeignKey('roles.id'))
-	password_hash = db.Column(db.String(128))
-	name          = db.Column(db.String(64))
-	company       = db.Column(db.String(64))
-	member_since  = db.Column(db.DateTime(), default=datetime.now)
-	last_seen     = db.Column(db.DateTime(), default=datetime.now)
-	understudy    = db.Column(db.Boolean(),default=True)
+    __tablename__ = 'users'
+    id            = db.Column(db.Integer,primary_key=True)
+    email         = db.Column(db.String(64), unique=True, index=True)
+    username      = db.Column(db.String(64),unique=True,index=True)
+    role_id       = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    password_hash = db.Column(db.String(128))
+    name          = db.Column(db.String(64))
+    company       = db.Column(db.String(64))
+    member_since  = db.Column(db.DateTime(), default=datetime.now)
+    last_seen     = db.Column(db.DateTime(), default=datetime.now)
+    understudy    = db.Column(db.Boolean(),default=True)
 
-	def __init__(self, **kwargs):
-		super(User, self).__init__(**kwargs)
-		if self.role is None:
-			if self.email == 'kobe@www.com':
-				self.understudy = False
-				db.session.add(self)
-				self.role = Role.query.filter_by(permissions=0X80).first()
-			if self.role is None:
-				self.role = Role.query.filter_by(default=True).first()
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == 'kobe@www.com':
+                self.understudy = False
+                db.session.add(self)
+                self.role = Role.query.filter_by(permissions=0X80).first()
+            if self.role is None:
+                self.role = Role.query.filter_by(default=True).first()
 
-	def ping(self):
-		self.last_seen = datetime.now()
-		db.session.add(self)
-		
-	def can(self, permissions):
-		return self.role is not None and \
-		(self.role.permissions & permissions) == permissions
+    def ping(self):
+        self.last_seen = datetime.now()
+        db.session.add(self)
 
-	def is_administrator(self):
-		return self.can(Permission.ADMIN)
+    def can(self, permissions):
+        return self.role is not None and \
+        (self.role.permissions & permissions) == permissions
 
-	def is_understudy(self):
-		if self.email == 'kobe@www.com':
-			self.understudy = False
-		return self.understudy
+    def is_administrator(self):
+        return self.can(Permission.ADMIN)
+
+    def is_understudy(self):
+        if self.email == 'kobe@www.com':
+            self.understudy = False
+        return self.understudy
 
     
-	class AnoymusUser(AnonymousUserMixin):
+    class AnoymusUser(AnonymousUserMixin):
 
-		def can(self, permissions):
-			return False
+        def can(self, permissions):
+            return False
 
-		def is_administrator(self):
-			return False
-	login_manager.anonymous_user = AnoymusUser
-
-
-
-	@property
-	def password(self): 
-		raise AttributeError('password is not a readabel attribute')
-
-	@password.setter
-	def password(self, password):
-		self.password_hash = generate_password_hash(password)
-
-	def verify_password(self, password):
-		return check_password_hash(self.password_hash, password)
+        def is_administrator(self):
+            return False
+    login_manager.anonymous_user = AnoymusUser
 
 
-	def __repr__(self):
-		return '<Users %r>' % self.username
+
+    @property
+    def password(self): 
+        raise AttributeError('password is not a readabel attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+
+    def __repr__(self):
+        return '<Users %r>' % self.username
 
 
 
@@ -173,23 +173,27 @@ class SonModel(db.Model):
 
 
 class Sensor(db.Model):
-	__tablename__ = 'sensors'
-	id          = db.Column(db.Integer, primary_key=True)
-	name		= db.Column(db.String(128), unique=True)
-	location    = db.Column(db.String(128))
-	slave_id    = db.Column(db.Integer)
-	position    = db.Column(db.Integer)
-	is_top      = db.Column(db.Boolean(), default=False)
-	is_run      = db.Column(db.Boolean(), default=False)
-	sonmodel_id = db.Column(db.Integer, db.ForeignKey('sonmodels.id'))
+    __tablename__ = 'sensors'
+    id           = db.Column(db.Integer, primary_key=True)
+    name         = db.Column(db.String(128), unique=True)
+    location     = db.Column(db.String(128))
+    position     = db.Column(db.Integer)
+    is_top       = db.Column(db.Boolean(), default=False)
+    is_run       = db.Column(db.Boolean(), default=False)
+    sensor_state = db.Column(db.String(32), default=u'unOpen')
+    create_time   = db.Column(db.DateTime(), default=datetime.now)
+    sonmodel_id  = db.Column(db.Integer, db.ForeignKey('sonmodels.id'))
+    sensorlogs    = db.relationship('SensorLog', backref='sensor', lazy='dynamic')
 
 
 class SensorLog(db.Model):
-	__tablename__ = 'sensorslog'
-	id            = db.Column(db.Integer, primary_key=True)
-	sensor_name   = db.Column(db.String(128), unique=True)
-	position      = db.Column(db.Integer)
-	slave_id      = db.Column(db.Integer)
-	sensor_state  = db.Column(db.String(32), default=u'unOpen')
-	create_time   = db.Column(db.DateTime(), default=datetime.now)
-	updata_time   = db.Column(db.DateTime(), default=datetime.now)
+    __tablename__ = 'sensorslog'
+    id            = db.Column(db.Integer, primary_key=True)
+    sensor_name   = db.Column(db.String(128))
+    sensor_state  = db.Column(db.String(32), default=u'unOpen')
+    time          = db.Column(db.DateTime(), default=datetime.now)
+    alarm         = db.Column(db.Boolean(), default=False)
+    check_user    = db.Column(db.String(32))
+    check_time    = db.Column(db.DateTime())
+    process_info  = db.Column(db.String(128))
+    sensor_id     = db.Column(db.Integer, db.ForeignKey('sensors.id'))
