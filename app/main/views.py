@@ -11,31 +11,44 @@ from ..decorators import admin_required, permission_required
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    slogs = []
-    sensor = Sensor.query.filter_by(is_top=True).all()
-    for s in sensor:
-        slog = SensorLog.query.filter_by(slave_id=s.slave_id).filter_by(position=s.position).first()
-        if slog is not None:
-            slogs.append(slog)
-    return render_template('index.html', slogs=slogs, sensor=sensor)
+    sensor_logs = SensorLog.query.order_by(SensorLog.time.desc()).limit(7).all()
+    count = SensorLog.query.count()
+    return render_template('index.html',sensor_logs=sensor_logs,count=count)
 
 @main.route('/updataOption',methods=['POST'])
 def updataOption():
-    data = []
-    sensorlog = SensorLog.query.order_by(SensorLog.slave_id)
-    for slog in sensorlog:
+    sensor= []
+    sensors = Sensor.query.order_by(Sensor.sonmodel_id)
+    for s in sensors:
         a = {
-             'time': slog.updata_time,
-             'position': slog.position,
-             'state': slog.sensor_state,
-             'slaveid': slog.slave_id 
+             'slaveid': s.sonmodel_id, 
+             'position': s.position,
+             'state': s.sensor_state
         }
-        data.append(a)
+        sensor.append(a)
+    json = {'sensor': sensor}
+    return jsonify(**json)
 
-    json = {'data': data}
+@main.route('/refreshLog', methods=['POST'])
+@login_required
+@admin_required
+def refreshLog():
+    slogs = []
+    sensor_logs = SensorLog.query.order_by(SensorLog.time.desc()).limit(7).all()
+    count = SensorLog.query.count()
+    for slog in sensor_logs:
+        log = {
+            'name':slog.sensor_name,
+            'state':slog.sensor_state,
+            'time':slog.time.strftime("%Y-%m-%d %H:%M:%S"),
+            'count':count
+        }
+        slogs.append(log)
+    json = {'slogs':slogs}
 
     return jsonify(**json)
-    
+
+
 @main.route('/user/<username>')
 @login_required
 def user(username):
@@ -126,3 +139,4 @@ def moveTopOrCancel():
 def help():
     return render_template('help.html')
 		
+

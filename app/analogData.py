@@ -2,7 +2,7 @@
 
 import random
 import time, threading
-from app.models import SensorLog, SonModel
+from app.models import SensorLog, SonModel, Sensor
 from app import db
 import datetime
 
@@ -12,7 +12,7 @@ SENSORSNUM =2
 
 def read_registers(start, num):
     data = []
-    rdata = [1,1,1,1,0,1,257,512,1,1,1,1,1,1,1,1]
+    rdata = [1,1,1,1,1,1,1,1,1,257,1,1,1,0,1,1,1,1,1]
     rNum = num - start
     if rNum < 0:
         return data
@@ -46,7 +46,7 @@ class WriteThread(threading.Thread):
                 for s in smodel:
                     smodeldata = []
                     com = s.getComNumber()
-                    slave = s.slaveaddress
+                    slave = s.id
                     sensorsNum = s.sensorsNumber * 2
                     instrument = random.choice(['open'])    #模拟打开端口
                     smodeldata.append(instrument)
@@ -60,19 +60,20 @@ class WriteThread(threading.Thread):
                         if datas:      #模拟查询成功
                             pop_zero_data = datas[::2]
                             for i, value in enumerate(pop_zero_data):
-                                datalog = SensorLog.query.filter_by(slave_id=instrument[SLAVEADDRESS]).filter_by(position=i*2).first()
-                                if datalog is not None:
+                                sensor = Sensor.query.filter_by(sonmodel_id=instrument[SLAVEADDRESS]).filter_by(position=i*2).first()
+                                if sensor is not None and sensor.is_run:
                                     if str(value) in self.state:
-                                        datalog.sensor_state = self.state[str(value)]
-                                        datalog.updata_time = datetime.datetime.now()
-                                        db.session.add(datalog)
+                                        sensor.sensor_state = self.state[str(value)]
+                                        if self.state[str(value)] != 'Normal':
+                                            log = SensorLog(sensor_name=sensor.name, sensor_state=self.state[str(value)], sensor=sensor)
+                                            db.session.add(log)
+                                        db.session.add(sensor)
                                         db.session.commit()
                         else:       #模拟查询失败
-                            datalog = SensorLog.query.filter_by(slave_id=instrument[SLAVEADDRESS]).all()
-                            for log in datalog:
-                                log.sensor_state ='unOpen'
-                                log.updata_time = datetime.datetime.now()
-                                db.session.add(log)
+                            sensors = Sensor.query.filter_by(sonmodel_id=instrument[SLAVEADDRESS]).all()
+                            for s in sensors:
+                                s.sensor_state ='unOpen'
+                                db.session.add(s)
                                 db.session.commit()
                 time.sleep(self.sleeptimes)
             
