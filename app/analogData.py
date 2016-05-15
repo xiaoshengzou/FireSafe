@@ -61,7 +61,7 @@ class WriteThread(threading.Thread):
                             pop_zero_data = datas[::2]
                             for i, value in enumerate(pop_zero_data):
                                 sensor = Sensor.query.filter_by(sonmodel_id=instrument[SLAVEADDRESS]).filter_by(position=i*2).first()
-                                if sensor is not None:
+                                if sensor is not None and sensor.is_run:
                                     if str(value) in self.state:
                                         sensor.sensor_state = self.state[str(value)]
                                         if self.state[str(value)] != 'Normal':

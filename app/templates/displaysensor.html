@@ -10,11 +10,12 @@
           {% for smodel in sonmodels %}
             <!-- Start Top Stats -->
             <ul class="topstats clearfix">
-              <p class="lead">{{ smodel.name }}</p>
+            <p class="lead" style="text-indent:20px;">{{ smodel.name }}</p>
+            {% if sensors %}
               {% for sor in sensors %}
                 {% if smodel.id == sor[0].sonmodel_id %}
                   {% for sensor in sor %}
-                    <li class="col-xs-6 col-lg-2">
+                    <li class="col-xs-6 col-lg-2" id="sensor_{{sensor.id}}">
                       <span class="title"><i class="fa fa-eye"></i> {{ sensor.name }} </span>
                       {% if sensor.is_run %}
                         <h3 class="color-up" id="state_{{smodel.id}}{{sensor.position}}">
@@ -22,51 +23,81 @@
                         </h3>
                       {% else %}
                         <a href="{{ url_for('sensor.createSensor', id=sensor.id) }}">
-                          <h3 class="color-down">Not Started</h3>
+                          <h3 class="color-down" title="点击启动该传感器">Run</h3>
                         </a>
                       {% endif %}
-                      <span class="diff">location: {{ sensor.location }}</span>
+                      <span class="diff"><a data-toggle="modal" data-target="#isDeleteModel{{sensor.id}}" title="删除该传感器"><i class="fa fa-trash-o"></i></a>-location: {{ sensor.location }}</span>
                     </li>
+                      <!-- Model -->
+                      <div class="modal fade" id="isDeleteModel{{sensor.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title"><i class="fa fa-comment-o"></i> From FireSafe's Tip</h4>
+                            </div>
+                              <div class="modal-body" style="color:red;font-size:18px;"><i class="fa fa-exclamation-triangle" style="color:red;"></i>
+                                确认删除该传感器吗？
+                              </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                                  <button id="{{sensor.id}}" type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteSensor(this.id)">Yes</button>
+                                </div>
+                          </div>
+                         </div>
+                        </div>
+                      <!-- End Model -->
                   {% endfor %}
                 {% endif %}
               {% endfor %}
+            {% endif %}
               <li class="col-xs-6 col-lg-2" id="plusSensor">
                 <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
                 <h3><button onclick="plusSensor()" type="button" class="btn btn-success btn-xs"><i class="fa fa-plus"></i>Plus</button></h3>
-                <span class="diff">--/--/-- --:--:--</span>
+                <span class="diff">position</span>
               </li>
             </ul>
           {% endfor %}
           <!-- End Top Stats -->
           <script type="text/javascript">
-          function updataOption(){
-            $.post('/updataOption',function(responce){
-              var list  = eval(responce);
-              for (var i = 0; i < list.sensor.length; i++) {
+            function deleteSensor(id) {
+              var nid = parseInt(id);
+              $.post("{{url_for('sensor.deleteSensor')}}",{'id':nid}, function(responce) {
+                if(responce == 'ok'){
+                  $("#sensor_" + id).remove();
+                }
+                else{
+                  alert("Delete fail!");
+                }
+              });                
+            }
+            function updataOption(){
+              $.post('/updataOption',function(responce){
+                var list  = eval(responce);
+                for (var i = 0; i < list.sensor.length; i++) {
 
-                $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).text(list.sensor[i].state);
+                  $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).text(list.sensor[i].state);
 
-                if(list.sensor[i].state == 'Staring') {
-                  $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).css("color","#66CCCC")
+                  if(list.sensor[i].state == 'Staring') {
+                    $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).css("color","#66CCCC")
 
-                }else if(list.sensor[i].state == 'Normal'){
-                  $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).css("color","#3366FF")
+                  }else if(list.sensor[i].state == 'Normal'){
+                    $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).css("color","#3366FF")
 
-                }else if(list.sensor[i].state == 'unOpen'){
-                  $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).css("color","#000000")
+                  }else if(list.sensor[i].state == 'unOpen'){
+                    $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).css("color","#000000")
 
-                }else {
-                  $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).css("color","red")
-                }                
-              }
-              
-            });
-          }
-          setInterval('updataOption()',3000);
+                  }else {
+                    $("#state_"+list.sensor[i].slaveid+list.sensor[i].position).css("color","red")
+                  }                
+                }
+              });
+            }
+            setInterval('updataOption()',3000);
           </script>
     </div>
   </div>
-  <!-- End Row -->
-  <br><br><br><br><br><br><br><br><br>
-  <br><br><br><br><br><br><br><br><br>
+  <!-- End Row -->          
+<br><br><br><br><br><br><br><br><br>
 {% endblock %}
+

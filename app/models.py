@@ -122,7 +122,7 @@ class MainStation(db.Model):
     name      = db.Column(db.String(128), unique=True)
     portname  = db.Column(db.String(32),unique=True)
     is_open   = db.Column(db.Boolean(), default=False)
-    sunmodels = db.relationship('SonModel', backref='station', lazy='dynamic')
+    sonmodels = db.relationship('SonModel', backref='station', lazy='dynamic')
 
     @staticmethod
     def insert_com():
@@ -147,7 +147,7 @@ class SonModel(db.Model):
     __tablename__ = 'sonmodels'
     id            = db.Column(db.Integer, primary_key=True)
     name 		  = db.Column(db.String(128), unique=True)
-    slaveaddress  = db.Column(db.Integer, unique=True)
+    slaveaddress  = db.Column(db.Integer)
     location      = db.Column(db.String(128))
     sensorsNumber = db.Column(db.Integer)
     main_id       = db.Column(db.Integer, db.ForeignKey('mainmodels.id'))

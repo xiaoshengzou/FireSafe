@@ -38,6 +38,6 @@ def depoly():
 if __name__ == '__main__':
         tasks1 = WriteThread(app, 3)
         tasks1.start()
-        app.run(debug=False)
+        app.run(debug=True)
 
-        #manager.run()
+        # manager.run()

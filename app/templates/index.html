@@ -9,52 +9,37 @@
   <!-- Start Top Stats -->
   <div class="col-md-12">
   <ul class="topstats clearfix">
-  {% if slogs %}
-    {% for slog in slogs %}
-      <li class="col-xs-6 col-lg-2">
-        <span class="title"><i class="fa fa-dot-circle-o"></i>{{slog.sensor_name}}</span>
-        <h3><a href="{{ url_for('sensor.topdisplay') }}">{{slog.sensor_state}}</a></h3>
-        <span class="diff">{{slog.updata_time.strftime("%c")}}</span>
-      </li>
-    {% endfor %}
+    <li class="arrow"></li>
     <li class="col-xs-6 col-lg-2">
-      <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
-      <h3><a href="{{ url_for('sensor.topdisplay') }}">+</a></h3>
-      <span class="diff">position</span>
-    </li>
-  {% else %}
-    <li class="col-xs-6 col-lg-2">
-      <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
-      <h3><a href="{{ url_for('sensor.topdisplay') }}">+</a></h3>
-      <span class="diff">position</span>
+      <span class="title"><i class="fa fa-dot-circle-o"></i> Today Sensors</span>
+      <h3 style="color: red;">Waring</h3>
+      <span class="diff"><b class="color-down"><i class="fa fa-caret-down"></i> 26%</b> from last hour</span>
     </li>
     <li class="col-xs-6 col-lg-2">
-      <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
-      <h3><a href="#">+</a></h3>
-      <span class="diff">position</span>
+      <span class="title"><i class="fa fa-dot-circle-o"></i> Today Sensors</span>
+      <h3 style="color: gray;">Closed</h3>
+      <span class="diff"><b class="color-up"><i class="fa fa-caret-up"></i> 26%</b> from last hour</span>
     </li>
     <li class="col-xs-6 col-lg-2">
-      <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
-      <h3><a href="#">+</a></h3>
-      <span class="diff">position</span>
+      <span class="title"><i class="fa fa-dot-circle-o"></i> Today Sensors</span>
+      <h3 class="color-up">Normal</h3>
+      <span class="diff"><b class="color-up"><i class="fa fa-caret-up"></i> 26%</b> from last hour</span>
     </li>
     <li class="col-xs-6 col-lg-2">
-      <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
-      <h3><a href="#">+</a></h3>
-      <span class="diff">position</span>
+      <span class="title"><i class="fa fa-dot-circle-o"></i> Total Sensors</span>
+      <h3 style="color: red;">Waring</h3>
+      <span class="diff"><b class="color-down"><i class="fa fa-caret-down"></i> 26%</b> from Total</span>
     </li>
     <li class="col-xs-6 col-lg-2">
-      <span class="title"><i class="fa fa-dot-circle-o"></i>sensor</span>
-      <h3><a href="#">+</a></h3>
-      <span class="diff">position</span>
+      <span class="title"><i class="fa fa-dot-circle-o"></i> Total Sensors</span>
+      <h3 style="color: gray;">Closed</h3>
+      <span class="diff"><b class="color-up"><i class="fa fa-caret-up"></i> 26%</b> from Total</span>
     </li>
-  {% endif %}
     <li class="col-xs-6 col-lg-2">
-      <span class="title"><i class="fa fa-binoculars"></i></span>
-      <h3><a href="{{ url_for('sensor.display') }}">More...</a></h3>
-      <span class="diff">点击查看更多</span>
+      <span class="title"><i class="fa fa-dot-circle-o"></i> Total Sensors</span>
+      <h3 class="color-up">Normal</h3>
+      <span class="diff"><b class="color-up"><i class="fa fa-caret-up"></i> 26%</b> from Total</span>
     </li>
-
   </ul>
   </div>
   <!-- End Top Stats -->
@@ -94,8 +79,8 @@
       <div class="panel panel-widget" style="height:450px;">
         <div class="panel-title">
           Sensors Log
-          {% if count > 99 %} 
-            <span class="label label-danger">99+</span>
+          {% if count > 999 %} 
+            <span class="label label-danger">999+</span>
           {% else %}
             <span id="count" class="label label-danger">{{ count }}</span>
           {% endif%}
@@ -168,6 +153,7 @@
 <!-- END CONTAINER -->
 {% endblock %}
 
-{% block footer %}
+{% block scripts %}
+{{ super() }}
 <script type="text/javascript" src="/static/js/manager_user.js"></script>
 {% endblock %}

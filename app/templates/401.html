@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Kode is a Premium Bootstrap Admin Template, It's responsive, clean coded and mobile friendly">
   <meta name="keywords" content="bootstrap, admin, dashboard, flat admin template, responsive," />
-  <title>404</title>
+  <title>401</title>
 
   <!-- ========== Css Files ========== -->
   <link href="/static/css/root.css" rel="stylesheet">
@@ -14,18 +14,18 @@
     body{background: #F5F5F5;}
   </style>
   </head>
-<body>
+  <body>
 
     <div class="error-pages">
 
-        <img src="/static/img/404.png" alt="404" class="icon" width="400" height="260">
-        <h1>Sorry but we couldn’t find this page</h1>
-        <h4>It seems that this page doesn’t exist or has been removed</h4>
+        <img src="/static/img/401.png" alt="401" class="icon" width="400" height="260">
+        <h1>Sorry. you must first login</h1>
+        <h4>If you do not have an account, please register</h4>
 
         <div class="bottom-links">
-          <a href="{{ url_for('main.index') }}" class="btn btn-light">Go Homepage</a>
+          <a href="{{ url_for('auth.login')}}" class="btn btn-light">Login</a>
+          <a href="{{ url_for('auth.register')}}" class="btn btn-light">Register</a>
+          <a href="{{ url_for('main.index')}}" class="btn btn-light">Go Home</a>
         </div>
-
 </body>
 </html>
-

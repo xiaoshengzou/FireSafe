@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
 
 {% block title %}setting top{% endblock %}
 
@@ -22,6 +23,7 @@
                     <tr>
                         <td>ID.</td>
                         <td>Name</td>
+                        <td>CreateTime</td>
                         <td>location</td>
                         <td>state</td>
                         <td>opration</td>
@@ -31,6 +33,7 @@
                 {% for sensor in sensors %}
                         <td># <b>{{ loop.index }}</b></td>
                         <td>{{ sensor.name }}</td>
+                        <td>{{ sensor.create_time.strftime("%Y-%m-%d %H:%M:%S")}}</td>
                         <td>{{ sensor.location }}</td>
                         {% if sensor.is_run %}
                             <td>已启动</td>
@@ -48,6 +51,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div style="text-align: center;">
+                {{ macros.pagination_widget(pagination,'sensor.topdisplay') }}
+            </div>
         </div>
         </div>
     </div>
@@ -56,7 +62,6 @@
     <!-- End Row -->
 </div>
 <!-- END CONTAINER -->
-<br><br><br><br><br><br><br>
 <br><br><br><br><br><br><br>
 {% endblock %}
 
